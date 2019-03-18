@@ -1,19 +1,21 @@
 package Models;
 
+import Models.Movies.Movie;
+
 public class Rental {
-    private Movie movie;
-    private int daysRented;
+    public Movie movie;
+    public int days;
 
-    public Rental(Movie movie, int daysRented){
+    public Rental(Movie movie, int days) {
+        this.days = days;
         this.movie = movie;
-        this.daysRented = daysRented;
     }
 
-    public int getDaysRented(){
-        return daysRented;
+    public double getCharge() {
+        return movie.getCharge(days);
     }
 
-    public Movie getMovie(){
-        return movie;
+    public int getBonusPoint() {
+        return this.movie.getBonusPoint();
     }
 }

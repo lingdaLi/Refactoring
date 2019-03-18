@@ -1,5 +1,7 @@
 package Models;
 
+import Models.Movies.Movie;
+
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -20,39 +22,23 @@ public class Customer {
     }
 
     public String statement(){
+        // I know in book they use a getTotalCharge() function to replace this variable.
+        // But personally I don't like that way due to it will case redundant getTotalPrice()
+        // call.
         double amount = 0;
         int bonusPoints = 0;
 
         Enumeration rentals = this.rentals.elements();
-        String result = "Rental Records for " + this.getName() + "\n";
+        String result = "Records for " + this.getName() + "\n";
 
         while(rentals.hasMoreElements()){
-            double currentAmount = 0;
+            Rental rental = (Rental) rentals.nextElement();
 
-            Rental cur = (Rental) rentals.nextElement();
-            switch (cur.getMovie().getPriceCode()) {
-                case Movie.Regular:
-                    currentAmount += 2;
-                    if (cur.getDaysRented() > 2)
-                        currentAmount += (cur.getDaysRented() - 2) * 1.5;
-                    break;
-                case Movie.NewRelease:
-                    currentAmount += cur.getDaysRented() * 3;
-                    break;
-                case Movie.Childrens:
-                    currentAmount += 1.5;
-                    if (cur.getDaysRented() > 3)
-                        currentAmount += (cur.getDaysRented() - 3) * 1.5;
-                    break;
-            }
-
-            bonusPoints++;
-            if(cur.getMovie().getPriceCode() == Movie.NewRelease &&
-                cur.getDaysRented() > 1)
-                bonusPoints++;
-
-            result += "\t" + cur.getMovie().getTitle() + "\t" + String.valueOf(currentAmount) + "\n";
+            double currentAmount = rental.getCharge();
+            result += "\t" + rental.movie.getTitle() + "\t" + String.valueOf(currentAmount) + "\n";
             amount += currentAmount;
+
+            bonusPoints += rental.getBonusPoint();
         }
 
         result += "Amount owed is " + String.valueOf(amount) + "\n";

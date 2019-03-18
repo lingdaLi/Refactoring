@@ -1,10 +1,6 @@
-package Models;
+package Models.Movies;
 
-public class Movie {
-    public static final int Childrens = 2;
-    public static final int Regular = 0;
-    public static final int NewRelease = 1;
-
+public abstract class Movie {
     private String title;
     private int priceCode;
 
@@ -24,4 +20,10 @@ public class Movie {
     public String getTitle(){
         return title;
     }
+
+    public abstract double getCharge(int days);
+
+    public abstract int getBonusPoint();
+
+
 }
